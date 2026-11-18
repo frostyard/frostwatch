@@ -16,6 +16,7 @@ Docs are split by the question they answer:
 - [0001 — Record architecture decisions](adr/0001-record-architecture-decisions.md)
 - [0002 — Agent-portable instruction surface](adr/0002-agent-portable-instruction-surface.md)
 - [0003 — Verify gate, risk paths and corrections](adr/0003-verify-gate-risk-paths-and-corrections.md)
+- [0004 — Build an unavailable SDK-first baseline](adr/0004-build-an-unavailable-sdk-first-baseline.md)
 
 ### Org-wide decisions
 
@@ -28,14 +29,15 @@ Docs are split by the question they answer:
 ### Design
 
 - [Agent-ready repository](design/agent-ready-repository.md)
+- [Frostwatch baseline](design/overview.md)
 
 ### Specs
 
-*(none yet)*
+- [Unavailable baseline](specs/baseline.md)
 
 ### Plans
 
-*(none yet)*
+- [Frostwatch delivery boundaries](plans/0001-roadmap.md)
 
 ## Conventions
 

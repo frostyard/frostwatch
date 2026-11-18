@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-17",
+  "scope": "repository-governance",
+  "correction": "A reference to the repository governance policy does not establish that the policy exists. Baseline validation must require the policy, default deny, human-review and independent-exception controls, and protected paths that match existing repository surfaces.",
+  "evidence": "Baseline review fix round 1 identified the missing governance policy. The new repository-governance regression test failed with ENOENT before the policy was added.",
+  "promoted_to": "test/baseline.test.mjs: repository governance exists and preserves default deny and human review"
+}

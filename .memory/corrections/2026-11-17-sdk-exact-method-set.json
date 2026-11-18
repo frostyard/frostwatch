@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-17",
+  "scope": "watch-sdk",
+  "correction": "The baseline SDK must expose exactly the approved six reads and one display acknowledgement. Its source-status read must not be replaced with a summary operation, and testing only the number or behavior of stubs cannot establish the approved method set.",
+  "evidence": "Baseline review fix round 1 identified the substituted read. TestExactMethodSet failed against both the value and pointer method sets before the correction.",
+  "promoted_to": "watch/client_test.go: TestExactMethodSet"
+}

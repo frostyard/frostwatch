@@ -3,6 +3,51 @@
   "default_level": "L3",
   "paths": [
     {
+      "glob": "AGENTS.md",
+      "level": "L2",
+      "why": "governance: canonical contributor and agent rules"
+    },
+    {
+      "glob": "policies/**",
+      "level": "L2",
+      "why": "governance: deny-by-default agent policy"
+    },
+    {
+      "glob": "scripts/check-privacy.mjs",
+      "level": "L2",
+      "why": "governance: public repository privacy gate"
+    },
+    {
+      "glob": "test/**",
+      "level": "L2",
+      "why": "governance: regression guards for CI and privacy"
+    },
+    {
+      "glob": "go.mod",
+      "level": "L1",
+      "why": "supply chain: Go and runtime dependency pins"
+    },
+    {
+      "glob": "go.sum",
+      "level": "L1",
+      "why": "supply chain: runtime dependency checksums"
+    },
+    {
+      "glob": ".golangci.yml",
+      "level": "L2",
+      "why": "governance: lint gate policy"
+    },
+    {
+      "glob": "internal/rpc/**",
+      "level": "L1",
+      "why": "trust boundary: unavailable adapter and future socket admission"
+    },
+    {
+      "glob": "cmd/frostwatchd/**",
+      "level": "L1",
+      "why": "trust boundary: daemon startup must remain unavailable until runtime review"
+    },
+    {
       "glob": ".github/risk-paths.json",
       "level": "L2",
       "why": "governance: the high-risk path list"
