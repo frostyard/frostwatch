@@ -1,0 +1,9 @@
+{
+  "fixture_only": true,
+  "installation_id": "example-installation",
+  "site": "example-site",
+  "resource_id": "example-host",
+  "display_alias": "Example host",
+  "prometheus_url": "https://prometheus.example.invalid",
+  "alertmanager_url": "https://alertmanager.example.invalid"
+}

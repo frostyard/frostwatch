@@ -1,12 +1,10 @@
-# Project Name
+# frostyard/frostwatch
 
-<!-- One paragraph: what this project is and who it serves. Point at
-docs/README.md as the entry point for everything else. Keep this file under
-~200 lines — it is loaded into every agent session; long files dilute the
-rules that matter. -->
-
-One or two sentences describing the project. Start at
-[docs/README.md](docs/README.md).
+Frostwatch is a planned tailnet monitoring app for lodge, app key `watch`.
+This repository currently contains only an unavailable SDK/CLI/daemon/web
+baseline. No protocol, backend, SQLite, MCP, package or deployment exists.
+Start at [docs/README.md](docs/README.md) and the
+[baseline design](docs/design/overview.md).
 
 This file (`AGENTS.md`) is the CANONICAL agent instructions — `CLAUDE.md`,
 `GEMINI.md`, `.cursorrules`, and `.github/copilot-instructions.md` are symlinks
@@ -39,7 +37,22 @@ every structural rule. Rules that remove a degree of freedom are the
 valuable ones: every choice an agent doesn't have to make is a failure mode
 removed. -->
 
-- *(add rules as the code that enforces them lands)*
+- Module `github.com/frostyard/frostwatch`; public SDK `watch/`; commands
+  `cmd/frostwatchd` and `cmd/watchctl`. `frostyard-frostwatch` is only the
+  planned Debian package name, not an implemented artifact.
+- All 7 context-only SDK placeholders return Connect `Unimplemented` through
+  `internal/rpc.Unimplemented`. Never return successful empty data or fake
+  health from a stub. Protocol generation owns the replacement typed API.
+- Keep `watchctl` a thin SDK shell (`internal/cli/root.go`). There is no
+  acknowledgement CLI command. A future acknowledgement is UI-only display
+  state, not a silence, recovery signal or notification change.
+- Keep the baseline inert: no backend/config/state access, listener, MCP,
+  raw query/proxy, or host-control operation. The web page must explicitly
+  say unavailable and load no script or remote resource.
+- Go is pure Go for builds (`CGO_ENABLED=0`). Tests use temp directories and
+  `t.Context()`, and run unfiltered with `go test ./...`.
+- Keep a real hearth v0.2.0 import. `go.mod` is the only Go version pin
+  (1.27.4); mise reads it through idiomatic version support.
 - Run `make verify` before you call any change done. CI job `verify` runs
   `make ci`, which also checks the corrections records against the PR base: no
   record removed or renamed, only an empty `promoted_to` filled, and the old
@@ -49,9 +62,12 @@ removed. -->
   runs under (for example `make ci BASE=<ref>`, not `make ci`) and each change
   the gate allows (for example a filled empty `promoted_to`), as the
   `Makefile`, the workflow and the gate's code define them.
-- `mise.toml` and `mise.lock` pin every tool the gate runs (ADR-0043 in core);
-  run `mise install` to get those versions. Change a pin only with `mise lock`,
-  in a commit of its own.
+- `mise.toml` and `mise.lock` pin Node and golangci-lint; `go.mod` pins Go
+  (ADR-0043 in core). Run `mise install` to provision them and `mise lock`
+  when a pin changes. Never duplicate the Go pin in a workflow or Makefile.
+- CI must retain `verify` and produce exact `CI result`; the aggregator
+  fails for failed, cancelled or skipped required work. The owner must
+  require both before merge. Do not change settings or weaken checks.
 
 **Test reliability.** No sleeps for timing (wait on a condition or inject a
 clock). No network and no wall clock in unit tests (inject them). A flaky test
@@ -82,9 +98,16 @@ by hand (`make verify` checks their hashes).
 
 ## Repository boundary
 
-<!-- What does NOT belong in this repo (secrets, personal data, generated
-files that are actually build outputs, apps that belong elsewhere)? How are
-releases cut? Delete the section if genuinely not applicable. -->
+- Commit only fictional fixtures with `.invalid` endpoints. Keep private
+  inventory, host names, addresses, source labels, logs, credentials,
+  workload content and agent paths outside this public repository.
+- Run `make privacy`; it checks tracked and new non-ignored files. It is a
+  pattern guard, not proof that arbitrary text is fictional. Review every
+  diff for privacy and provenance; never print matching private content.
+- Do not commit `build/`, dependency caches or generated runtime state.
+- No release workflow, packaging, tag, publish, deploy or host work belongs
+  to the baseline. Do not commit or push unless the task explicitly asks.
+- Preserve `policies/agent-governance.json` and the vendored baseline guards.
 
 ## Documentation rules (enforced)
 

@@ -1,6 +1,4 @@
-# CI workflow (ADR-0021: SHA-pinned actions, least privilege): the job verify
-# is the required check. Actions use full commit SHA pins, the token has only
-# contents read, and checkout does not persist credentials.
+# Both verify and CI result must be required in the default-branch ruleset.
 name: CI
 
 on:
@@ -19,7 +17,7 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     permissions:
       contents: read
     steps:
@@ -27,13 +25,24 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      # Node comes from mise.toml and mise.lock (ADR-0043), checksum-verified,
-      # the same way a developer's `mise install` does.
       - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
           install: true
-          install_args: node
           cache: true
       - run: make ci BASE="$BASE"
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || '' }}
+
+  result:
+    name: CI result
+    needs:
+      - verify
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions: {}
+    steps:
+      - name: Require every dependency to succeed
+        env:
+          VERIFY_RESULT: ${{ needs.verify.result }}
+        run: test "$VERIFY_RESULT" = success

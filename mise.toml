@@ -1,10 +1,8 @@
-# Tool pins for this repository (frostyard core ADR-0043). Every tool the gates
-# invoke is listed; mise.lock carries the checksums. `mise install` provisions
-# the same versions locally and in CI.
+# Go has one version pin: go.mod.
 [settings]
+idiomatic_version_file_enable_tools = ["go"]
 lockfile = true
 
 [tools]
-# The template gate (make verify) runs scripts/check-template.mjs and the Node
-# tests. Node 24 LTS.
 node = "24.22.2"
+golangci-lint = "2.15.0"
